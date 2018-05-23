@@ -22,8 +22,8 @@
       const $poster = $('<img>').addClass('poster');
 
       $poster.attr({
-        src: movie.poster,
-        alt: `${movie.poster} Poster`
+        src: movie.Poster,
+        alt: `${movie.Poster} poster`
       });
 
       $content.append($title, $poster);
@@ -41,9 +41,9 @@
 
       const $modal = $('<div>').addClass('modal').attr('id', movie.id);
       const $modalContent = $('<div>').addClass('modal-content');
-      const $modalHeader = $('<h4>').text(movie.title);
-      const $movieYear = $('<h6>').text(`Released in ${movie.year}`);
-      const $modalText = $('<p>').text(movie.plot);
+      const $modalHeader = $('<h4>').text(movie.Title);
+      const $movieYear = $('<h6>').text(`Released in ${movie.Year}`);
+      const $modalText = $('<p>').text(movie.Plot);
 
       $modalContent.append($modalHeader, $movieYear, $modalText);
       $modal.append($modalContent);
@@ -57,4 +57,28 @@
   };
 
   // ADD YOUR CODE HERE
+  let searchButton = document.getElementById('searchButton');
+  let searchBar = document.getElementById('search');
+  let PosterContainer = document.getElementById('Poster-container');
+  // console.log(PosterContainer);
+
+  searchButton.addEventListener('click', function (e) {
+
+    if (searchBar.value !== "") {
+      e.preventDefault();
+      let link = `https://omdb-api.now.sh/?s="${searchBar.value}`;
+
+      fetch(link)
+        .then(response => response.json())
+        .then(function (data) {
+          data.Search.forEach(function (movie) {
+            movies.push(movie);
+
+          });
+          renderMovies();
+        });
+
+    }
+
+  });
 })();
